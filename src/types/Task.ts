@@ -2,7 +2,7 @@ import { Snowflake } from "../lib/snowflake";
 
 export type Task = {
     task_id: Snowflake;
-    calendar_id: string;
+    calendar_id: Snowflake;
     name: string;
     day: Date;
     complete: boolean;

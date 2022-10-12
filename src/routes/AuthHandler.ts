@@ -1,5 +1,4 @@
 import { Type } from "@sinclair/typebox";
-import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { compare, hash } from "bcrypt";
 import { Router } from "express";
 import { sign } from "jsonwebtoken";
@@ -58,14 +57,9 @@ AuthHandler.get("/info", useAuth, async (req: AuthentificatedRequest, res) => {
     return res.status(200).json(req.user);
 });
 
-const infoSchema = TypeCompiler.Compile(Type.Object({
-    id: Type.String()
-}));
-
 AuthHandler.get("/info/:id", useAuth, async (req: AuthentificatedRequest, res) => {
-    if(!req.user) return res.status(403).send("Access denied!");
 
-    if(!infoSchema.Check(req.params)) return res.status(400).send("Bad request!");
+    if(!req.user) return res.status(403).send("Access denied!");
 
     const user = req.user;
     if(!(user.permissions & 1)) return res.status(403).send("Access denied!");
@@ -77,3 +71,5 @@ AuthHandler.get("/info/:id", useAuth, async (req: AuthentificatedRequest, res) =
     return res.status(200).json(searchUser);
 
 });
+
+export default AuthHandler;

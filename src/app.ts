@@ -10,6 +10,11 @@ const app = Express();
 
 app.use(json());
 
+app.use((req, res, next) => {
+    Logger.info(req.method + " ON " + req.url);
+    next();
+});
+
 app.get("/", (req, res) => res.send({ status: 200 }));
 
 

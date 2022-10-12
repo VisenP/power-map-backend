@@ -21,7 +21,7 @@ export const initDatabase = async () => {
         username: { type: "text" },
         password: { type: "text "},
         email: { type: "text" },
-        permissions: { type: "int" },
+        permissions: { type: "bigint" },
     }, "user_id");
 
     await DataBase.createIndex("users", "users_by_email", "email");
@@ -39,6 +39,8 @@ export const initDatabase = async () => {
         description: { type: "text" },
         day: { type: "timestamp" },
     }, "task_id");
+
+    await DataBase.createIndex("tasks", "tasks_by_callendar_id", "calendar_id");
     
     await DataBase.createTable("user_calendar_entry", true, {
         calendar_id: { type: "bigint" },
