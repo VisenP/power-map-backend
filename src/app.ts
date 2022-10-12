@@ -3,6 +3,7 @@ import Express, { json } from "express";
 
 import { DataBase, initDatabase } from "./data/Database";
 import { Logger } from "./lib/logger";
+
 dotenvConfig();
 
 const app = Express();

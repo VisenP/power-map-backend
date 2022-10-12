@@ -1,3 +1,5 @@
+import { Type } from "@sinclair/typebox";
+import { TypeCompiler } from "@sinclair/typebox/compiler";
 import { NextFunction, Request, Response } from "express";
 import { JwtPayload, verify } from "jsonwebtoken";
 
@@ -5,6 +7,11 @@ import { DataBase } from "../data/Database";
 import { Globals } from "../globals";
 import { User } from "../types/User";
 
+const jwtSchema = Type.Object({
+    _id: Type.String()
+});
+
+const compiledSchema = TypeCompiler.Compile(jwtSchema);
 
 export type AuthentificatedRequest = Request & {
     user?: User;
@@ -18,9 +25,10 @@ const validateJwt = async (token?: string): Promise<User | null> => {
         return null;
     }
 
-    const { error } = infoValidation(jwt);
-    if(error || typeof jwt === "string") return null;
-
+    if(!compiledSchema.Check(jwt)) {
+        return null;
+    }
+    
     const user = await DataBase.selectOneFrom("users", "*", {user_id: jwt._id});
 
     return user ?? null;

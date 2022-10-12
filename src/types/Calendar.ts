@@ -1,4 +1,6 @@
+import { Snowflake } from "../lib/snowflake";
+
 export type Calendar = {
-    calendar_id: string;
+    calendar_id: Snowflake;
     name: string;
 }

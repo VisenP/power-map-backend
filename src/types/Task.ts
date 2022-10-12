@@ -1,6 +1,7 @@
+import { Snowflake } from "../lib/snowflake";
 
 export type Task = {
-    task_id: string;
+    task_id: Snowflake;
     calendar_id: string;
     name: string;
     day: Date;

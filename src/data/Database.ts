@@ -17,19 +17,22 @@ export const DataBase = new ScylloClient<{ users: User; tasks: Task; user_calend
 
 export const initDatabase = async () => {
     await DataBase.createTable("users", true, {
-        user_id: { type: "text"},
+        user_id: { type: "bigint"},
         username: { type: "text" },
+        password: { type: "text "},
         email: { type: "text" },
         permissions: { type: "int" },
     }, "user_id");
+
+    await DataBase.createIndex("users", "users_by_email", "email");
     
     await DataBase.createTable("calendars", true, {
-        calendar_id: { type: "text" },
+        calendar_id: { type: "bigint" },
         name: { type: "text"}
     }, "calendar_id");
 
     await DataBase.createTable("tasks", true, {
-        task_id: {type: "text"},
+        task_id: {type: "bigint"},
         calendar_id: { type: "text" },
         complete: { type: "boolean" },
         name: { type: "text" },
@@ -38,7 +41,7 @@ export const initDatabase = async () => {
     }, "task_id");
     
     await DataBase.createTable("user_calendar_entry", true, {
-        calendar_id: { type: "text" },
+        calendar_id: { type: "bigint" },
         user_id: { type: "text" }
     }, ["calendar_id", "user_id"]);
 
